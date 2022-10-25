@@ -1,0 +1,65 @@
+from tkinter import*
+import tkinter.font
+from gpiozero import LED
+import RPi.GPIO as GPIO
+GPIO.setmode(GPIO.BCM)
+
+
+win = Tk()
+win.title("LED Toggler");
+win.geometry("400x175")
+Font = tkinter.font.Font(family='Aerial', size = 16, weight = "bold")
+
+
+red_led = LED(14)
+green_led = LED(15)
+red2_led = LED(18) 
+
+
+def red1toggle():
+     if red_led.is_lit:
+        red_led.off()
+        redButton["text"] = "Turn FIRST RED LED on"
+     else:
+        red_led.on()
+        green_led.off()
+        red2_led.off()
+        redButton["text"] = "TURN FIRST RED LED Off"
+        
+def greentoggle():
+     if green_led.is_lit:
+        green_led.off()
+        greenButton["text"] = "TURN GREEN LED ON"
+     else:
+        red_led.off()
+        green_led.on()
+        red2_led.off()
+        greenButton["text"] = "TURN GREEN LED Off"
+        
+def red2toggle():
+    if red2_led.is_lit:
+        red2_led.off()
+        red2Button["text"] = "TURN SECOND RED LED ON"
+    else:
+        red_led.off()
+        green_led.off()
+        red2_led.on()
+        red2Button["text"] = "TURN SECOND RED LED Off"
+  
+        
+def close():
+    win.destroy()
+    GPIO.cleanup()
+    
+    
+redButton = Button(win, text = "turn the first red led on", font = Font, command = red1toggle, bg = 'red', height = 1, width = 24)
+redButton.grid(row = 1, column = 1)
+
+greenButton = Button(win, text = "turn the green led on", font = Font, command = greentoggle, bg = 'green', height = 1, width = 24)
+greenButton.grid(row = 2, column = 1)
+
+red2Button = Button(win, text = "turn the second red led on", font = Font,command = red2toggle, bg = 'maroon', height = 1, width = 24)
+red2Button.grid(row = 3, column = 1)
+
+closebutton = Button(win, text = "EXIT GUI", font = Font,command = close, bg = 'grey', height = 1, width = 10)
+closebutton.grid(row = 4, column = 1)
